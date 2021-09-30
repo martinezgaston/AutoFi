@@ -27,6 +27,7 @@ class ConfigHandler {
         "vin",
         "make",
         "mileage",
+        "model",
         "year",
         "price",
         "zip code",

@@ -11,7 +11,12 @@ The project has a folder called 'docs' with a swagger and a postman collection
 ## Installation
 
 First, export the next variables (this magically makes mongo-memory-server works)
-
+Linux
+```sh
+export MONGOMS_DOWNLOAD_URL=https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1804-4.2.8.tgz
+export MONGOMS_VERSION=4.2.8
+```
+MAC
 ```sh
 export MONGOMS_DOWNLOAD_URL=https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1804-4.2.8.tgz
 export MONGOMS_VERSION=4.2.8
