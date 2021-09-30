@@ -11,12 +11,7 @@ The project has a folder called 'docs' with a swagger and a postman collection
 ## Installation
 
 First, export the next variables (this magically makes mongo-memory-server works)
-Linux
-```sh
-export MONGOMS_DOWNLOAD_URL=https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1804-4.2.8.tgz
-export MONGOMS_VERSION=4.2.8
-```
-MAC
+#### Linux
 ```sh
 export MONGOMS_DOWNLOAD_URL=https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1804-4.2.8.tgz
 export MONGOMS_VERSION=4.2.8
@@ -51,7 +46,31 @@ Not working, I had some problems with mongo in memory binaries inside a docker c
 
 ### Use the api
 
-In the /docs folder are a swagger and a postman collection files to play with the api - Use the 'Upload CSV' request to send a csv. Remember to attach a file to it and set the variable 'provider_name'. This endpoint returns a batchId to use in 'Get Batch ID' - Use the 'Get Batch ID' request to check the status of a csv - use 'Change Config' request to modified the columns to store in the db. Remember to send an array oh strings in the property 'acceptedValues'
+In the /docs folder are a swagger and a postman collection files to play with the api 
+- Use the 'Upload CSV' request to send a csv. Remember to attach a file to it and set the variable 'provider_name'. This endpoint returns a batchId to use in 'Get Batch ID' 
+- Use the 'Get Batch ID' request to check the status of a csv 
+- use 'Change Config' request to modified the columns to store in the db. Remember to send an array oh strings in the property 'acceptedValues'
+
+### Some curl examples
+```sh
+# Submit a csv
+curl --location --request POST 'http://localhost:3000/upload-csv' --form 'cardata=@./example.csv' --form 'provider_name="ProviderName"'
+
+curl --location --request POST 'http://localhost:3000/upload-csv' --form 'cardata=@./short.example.csv' --form 'provider_name="ProviderName"'
+
+# Query status
+curl --location --request GET 'http://localhost:3000/batch/c41cd58b-c2f6-4f37-b77a-6299876e33bf' 
+
+# Modify accepted columns
+curl --location --request POST 'http://localhost:3000/config' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "acceptedValues":[
+       "uuid"
+    ]
+}'
+
+```
 
 ## Test
 
@@ -67,6 +86,7 @@ npm test
 - I din't use an ORM since the document fields are variable, they don't have a specific schema
 - I added more endpoints to make everything easier to test
 - The accepted columns are fixed during the process of a csv. If you modify the columns, only the upcoming processes will notice that change
+
 
 ## TO DO
 
