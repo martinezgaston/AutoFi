@@ -1,0 +1,175 @@
+openapi: 3.0.1
+info:
+  title: AutoFi Challenge - by Gastón Martinez
+  description: Solution to the backend challenge
+  version: v1
+servers:
+  - url: http://localhost:3000
+
+
+paths:
+  '/upload-csv':
+    post:
+      summary: Submits a csv
+      description: Submits a csv
+      operationId: "CSV-001"
+      requestBody:
+        description: "Payload information"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UploadCSVResult"      
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UploadCSVResult"      
+        '400':
+          description: "Bad request, invalid parameters recived"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'          
+              example:
+                description: "No provider sent"
+        '500':
+          description: "Application Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'                
+              example:
+                description: "Internal server error" 
+                
+  '/batch/{batchId}':
+    get:
+      summary: Retrieves a csv status
+      description: Retrieves a csv status
+      operationId: "BATCH-001"
+      parameters:
+        - in: path
+          name: batchId
+          required: true
+          schema:
+            type: string
+          description: Batch Id
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BatchStatusResult"      
+        '404':
+          description: "The requested status could not be found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'          
+              example:
+                description: "No batch found"                
+        '500':
+          description: "Application Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'                
+              example:
+                description: "Internal server error" 
+  '/config':
+    post:
+      summary: Submits new accepted columns
+      description: Submits new accepted columns
+      operationId: "CONFIG-001"
+      requestBody:
+        description: "Payload information"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AcceptedColumns"  
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"      
+        '404':
+          description: "The requested status could not be found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'          
+              example:
+                description: "No batch found"                
+        '500':
+          description: "Application Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'                
+              example:
+                description: "Internal server error" 
+components:
+  schemas:
+    UploadCSVResult:
+      description: Represents the result of submiting a csv
+      type: object
+      properties:
+        batchId:
+          type: string
+          example: "77fbef11-ae66-4343-b0fa-dc279a509972"
+          
+    AcceptedColumns:
+      description: Represents an array of column names
+      type: object
+      properties:
+        acceptedColumns:
+          type: array
+          items: 
+              type: string
+              example: 
+                - "uuid"
+                - "vin"
+          
+    MessageResponse:
+      description: Represents a simple response message
+      type: object
+      properties:
+        batchId:
+          type: string
+          example: "Config Updated"
+
+    BatchStatusResult:
+      description: Represents the status of a csv
+      type: object
+      properties:
+        batchId:
+          type: string
+          example: "77fbef11-ae66-4343-b0fa-dc279a509972"
+        status:
+          oneOf:
+            - $ref: '#/components/schemas/BatchStatus'
+           
+                      
+    BatchStatus:
+      type: string
+      format: enum
+      enum:
+        - FINISHED
+        - PROCESSING
+        - ON ERROR
+  
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            description:
+              type: string
+              description: Error description

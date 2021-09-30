@@ -1,0 +1,91 @@
+{
+	"info": {
+		"_postman_id": "5699fc02-ac15-406d-94f8-113d747f6ed9",
+		"name": "Autofi - node",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Batch ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/batch/5602b740-07b9-4771-b365-85e1bb483111",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"batch",
+						"5602b740-07b9-4771-b365-85e1bb483111"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload CSV",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "cardata",
+							"type": "file",
+							"src": "/home/gaston/Documents/React/AutoFi/example.csv"
+						},
+						{
+							"key": "provider_name",
+							"value": "gaston",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/upload-csv",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"upload-csv"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change config",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"acceptedValues\":[\n        \"uuid\"\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/config",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"config"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
